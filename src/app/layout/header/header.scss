@@ -1,0 +1,38 @@
+.header {
+  background-color: #1f2937;
+  color: #fff;
+  padding: 12px 0;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #f59e0b;
+}
+
+/* Navigation */
+.nav a {
+  margin: 0 12px;
+  text-decoration: none;
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  color: #f59e0b;
+}
+
+/* Actions */
+.actions {
+  font-size: 20px;
+  cursor: pointer;
+}
