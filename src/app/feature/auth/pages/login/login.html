@@ -62,6 +62,9 @@
           <span>Sign In</span>
         }
       </button>
+      <button type="button" class="login-btn" [disabled]="(loading$ | async) || false">
+        <a [routerLink]="['/register']"> Register </a>
+      </button>
     </form>
   </div>
 </div>

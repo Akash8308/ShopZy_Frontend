@@ -1,10 +1,15 @@
 import { Routes } from '@angular/router';
 import { Login } from './feature/auth/pages/login/login';
+import { Register } from './feature/auth/pages/register/register';
 
 export const routes: Routes = [
     {
         path: '',
         loadComponent: () => import('./feature/auth/pages/login/login').then(c => Login)
+    },
+    {
+        path: 'register',
+        loadComponent: () => import('./feature/auth/pages/register/register').then(c => Register)
     },
     {
         path: 'restaurant-list',

@@ -1,4 +1,5 @@
-import { register } from 'module';
+import { CommonModule } from '@angular/common';
+import { register } from '../../states/auth.actions';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -17,7 +18,8 @@ import { selectAuthError, selectLoading } from '../../states/auth.selectors';
 
 @Component({
   selector: 'app-register',
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule],
+  standalone: true,
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -76,7 +78,7 @@ export class Register {
 
     if (this.RegistrationForm.invalid) return;
 
-    const { email, password } = this.RegistrationForm.value;
+    const { name, email, password } = this.RegistrationForm.value;
 
     this.store.dispatch(register({ name, email, password }));
   }

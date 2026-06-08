@@ -13,6 +13,27 @@
     <form [formGroup]="RegistrationForm" (ngSubmit)="onSubmit()">
       <h2>Register</h2>
 
+      <!-- NAME -->
+      <div class="form-group">
+        <input
+          type="name"
+          formControlName="name"
+          placeholder="Name"
+          [disabled]="(loading$ | async) || false"
+        />
+
+        @if ((name?.touched || submitted) && name?.invalid) {
+          <small class="error-text">
+            @if (name?.errors?.['required']) {
+              name is required
+            }
+            @if (name?.errors?.['name']) {
+              Please enter your name!
+            }
+          </small>
+        }
+      </div>
+
       <!-- EMAIL -->
       <div class="form-group">
         <input

@@ -45,6 +45,14 @@ export const authReducer = createReducer(
         isAuthenticated: false
     })),
 
+    // Registration failure
+    on(AuthActions.registrationFailure, (state, { error }) => ({
+        ...state,
+        loading: false,
+        error,
+        isAuthenticated: false
+    })),
+
     // Logout
     on(AuthActions.logout, () => initialState)
 );
