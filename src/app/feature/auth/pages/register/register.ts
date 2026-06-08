@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { register } from '../../states/auth.actions';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -6,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+
 
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -16,28 +17,27 @@ import { login, logout } from '../../states/auth.actions';
 import { selectAuthError, selectLoading } from '../../states/auth.selectors';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
+  imports: [CommonModule, ReactiveFormsModule],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './login.html',
-  styleUrl: './login.scss'
+  templateUrl: './register.html',
+  styleUrl: './register.scss',
 })
-export class Login implements OnInit {
-
+export class Register {
   private store = inject(Store);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
 
   submitted = false;
 
-  loginForm: FormGroup;
+  RegistrationForm: FormGroup;
 
   error$ = this.store.select(selectAuthError);
   loading$ = this.store.select(selectLoading);
 
   constructor(private fb: FormBuilder) {
 
-    this.loginForm = this.fb.group({
+    this.RegistrationForm = this.fb.group({
       email: [
         '',
         [
@@ -50,6 +50,12 @@ export class Login implements OnInit {
         [
           Validators.required,
           Validators.minLength(6)
+        ]
+      ],
+      name: [
+        '',
+        [
+          Validators.required,
         ]
       ]
     });
@@ -70,18 +76,22 @@ export class Login implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.loginForm.invalid) return;
+    if (this.RegistrationForm.invalid) return;
 
-    const { email, password } = this.loginForm.value;
+    const { name, email, password } = this.RegistrationForm.value;
 
-    this.store.dispatch(login({ email, password }));
+    this.store.dispatch(register({ name, email, password }));
   }
 
   get email() {
-    return this.loginForm.get('email');
+    return this.RegistrationForm.get('email');
   }
 
   get password() {
-    return this.loginForm.get('password');
+    return this.RegistrationForm.get('password');
+  }
+
+  get name() {
+    return this.RegistrationForm.get('name');
   }
 }

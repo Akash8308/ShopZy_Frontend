@@ -1,13 +1,14 @@
 import { createAction, props } from '@ngrx/store';
+import { LoginResponse, User } from '../../../model/auth.model';
 
 export const login = createAction(
     '[Auth] Login',
-    props<{ username: string; password: string }>()
+    props<{ email: string; password: string }>()
 );
 
 export const loginSuccess = createAction(
     '[Auth] Login Success',
-    props<{ username: string }>()
+    props<{ response: LoginResponse }>()
 );
 
 export const loginFailure = createAction(
@@ -17,4 +18,18 @@ export const loginFailure = createAction(
 
 export const logout = createAction(
     '[Auth] Logout'
+);
+
+export const logout$ = createAction(
+    '[Auth] Logout Success'
+);
+
+export const register = createAction(
+    '[Auth] Register',
+    props<{ name: string, email: string; password: string }>()
+)
+
+export const registrationFailure = createAction(
+    '[Auth] Registration Failed',
+    props<{ error: string }>()
 );
