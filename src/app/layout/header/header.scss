@@ -2,83 +2,108 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: #ffffff;
+
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+
   border-bottom: 1px solid #f1f1f1;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px 24px;
+  padding: 14px 24px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* LOGO */
 .logo {
-  font-size: 32px;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 26px;
+  font-weight: 800;
+
   color: #ef4f5f;
   cursor: pointer;
 }
 
+.logo img {
+  width: 34px;
+  height: 34px;
+}
+
+/* SEARCH */
 .search-bar {
   flex: 1;
-  max-width: 600px;
-  margin: 0 40px;
+  max-width: 550px;
+  margin: 0 30px;
+
   display: flex;
   align-items: center;
+
   background: #fff;
   border-radius: 12px;
-  padding: 12px 18px;
-  box-shadow: 0 2px 12px rgba(28, 28, 28, 0.08);
+
+  padding: 10px 14px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  transition: 0.3s;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 6px 18px rgba(239, 79, 95, 0.15);
 }
 
 .search-bar input {
   width: 100%;
   border: none;
   outline: none;
-  font-size: 15px;
-  color: #1c1c1c;
+  font-size: 14px;
 }
 
+/* NAV */
 .nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 .nav a {
   text-decoration: none;
-  color: #696969;
-  font-size: 16px;
+  color: #555;
   font-weight: 500;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .nav a:hover {
   color: #ef4f5f;
 }
 
+/* BUTTONS */
 .login-btn {
-  border: none;
   background: transparent;
-  color: #696969;
-  font-size: 16px;
+  border: none;
+  color: #555;
   cursor: pointer;
 }
 
 .signup-btn {
-  border: none;
   background: #ef4f5f;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
   color: white;
-  padding: 10px 22px;
-  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .signup-btn:hover {
-  background: #e23d4e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239, 79, 95, 0.3);
 }

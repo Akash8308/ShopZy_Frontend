@@ -1,15 +1,28 @@
 <header class="header">
     <div class="container">
 
-        <div class="logo">
+        <div class="logo" routerLink="">
             Shopzy
         </div>
-        <nav class="nav">
-            <a routerLink="/cart">Cart</a>
-        </nav>
+
         <div class="actions">
-            <span class="cart-icon" routerLink="/auth/login">Login</span>
+            <!-- <button class="login-btn" (click)="openLogin()">
+                Login
+            </button> -->
         </div>
 
     </div>
 </header>
+
+<!-- @if (showLogin) {
+<div class="modal-backdrop">
+
+    <div class="modal">
+
+        <app-login (close)="closeLogin()">
+        </app-login>
+
+    </div>
+
+</div>
+} -->

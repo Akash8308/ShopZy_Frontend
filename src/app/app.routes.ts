@@ -9,5 +9,11 @@ export const routes: Routes = [
     {
         path: 'restaurant-list',
         loadComponent: () => import('./feature/restaurants/Pages/restaurant-list/restaurant-list').then(c => c.RestaurantList)
-    }
+    },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./layout/dashboard/dashboard').then(c => c.Dashboard)
+    },
+
+
 ];

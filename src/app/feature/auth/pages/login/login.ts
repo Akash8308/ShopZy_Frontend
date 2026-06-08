@@ -7,6 +7,7 @@ import {
   Validators
 } from '@angular/forms';
 
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -21,12 +22,15 @@ import { selectAuthError } from '../../states/auth.selectors';
   styleUrl: './login.scss'
 })
 export class Login implements OnInit {
+
   private store = inject(Store);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   submitted = false;
+
   loginForm: FormGroup;
-  errorMessage: string | null = 'Invalid Credentials';
+
   error$ = this.store.select(selectAuthError);
 
   constructor(private fb: FormBuilder) {
@@ -54,15 +58,15 @@ export class Login implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginForm.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.errorMessage = null;
-      });
-  }
 
-  clearError(): void {
-    this.errorMessage = null;
+    // reset form on error (optional)
+    this.error$.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(error => {
+        if (error) {
+          this.loginForm.reset();
+          this.submitted = false;
+        }
+      });
   }
 
   onSubmit(): void {
@@ -73,6 +77,9 @@ export class Login implements OnInit {
     const { username, password } = this.loginForm.value;
 
     this.store.dispatch(login({ username, password }));
+
+    // 🔥 OPTIONAL: navigate after success (needs success action in effect)
+    // this.router.navigate(['/']);
   }
 
   get username() {
