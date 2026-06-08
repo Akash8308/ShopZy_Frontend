@@ -15,16 +15,12 @@
   justify-content: space-between;
 }
 
-/* Logo */
-
 .logo {
   font-size: 32px;
   font-weight: 700;
   color: #ef4f5f;
   cursor: pointer;
 }
-
-/* Search */
 
 .search-bar {
   flex: 1;
@@ -46,8 +42,6 @@
   color: #1c1c1c;
 }
 
-/* Nav */
-
 .nav {
   display: flex;
   align-items: center;
@@ -65,8 +59,6 @@
 .nav a:hover {
   color: #ef4f5f;
 }
-
-/* Auth Buttons */
 
 .login-btn {
   border: none;
