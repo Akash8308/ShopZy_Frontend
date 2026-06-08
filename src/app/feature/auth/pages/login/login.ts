@@ -15,7 +15,6 @@ import { login } from '../../states/auth.actions';
 import { selectAuthError } from '../../states/auth.selectors';
 
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -39,12 +38,8 @@ export class Login implements OnInit {
   }
 
   ngOnInit(): void {
-
-    // backend error handling
-
   }
 
-  // optional explicit handler (if you used (input))
   clearError(): void {
     this.errorMessage = null;
   }
@@ -64,7 +59,6 @@ export class Login implements OnInit {
         this.errorMessage = error;
       });
 
-    // 👇 BEST FIX: clear error on any typing
     this.loginForm.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
