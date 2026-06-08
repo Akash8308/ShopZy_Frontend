@@ -1,53 +1,67 @@
 <div class="login-page">
-    <div class="login-card">
-
-        <!-- 🔴 BACKEND ERROR -->
-        @if (error$ | async; as error) {
-        @if (error) {
+  <div class="login-card">
+    <!-- ✅ ERROR MESSAGE -->
+    @if (error$ | async; as error) {
+      @if (error) {
         <div class="error-message">
-            <span class="error-icon">⚠️</span>
-            <span class="error-text-msg">{{ error }}</span>
+          <span class="error-icon">⚠️</span>
+          <span class="error-text-msg">{{ error }}</span>
         </div>
+      }
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <h2>Sign In</h2>
+
+      <!-- EMAIL -->
+      <div class="form-group">
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Email"
+          [disabled]="(loading$ | async) || false"
+        />
+
+        @if ((email?.touched || submitted) && email?.invalid) {
+          <small class="error-text">
+            @if (email?.errors?.['required']) {
+              Email is required
+            }
+            @if (email?.errors?.['email']) {
+              Please enter a valid email
+            }
+          </small>
         }
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form-group">
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+          [disabled]="(loading$ | async) || false"
+        />
+
+        @if ((password?.touched || submitted) && password?.invalid) {
+          <small class="error-text">
+            @if (password?.errors?.['required']) {
+              Password is required
+            }
+            @if (password?.errors?.['minlength']) {
+              Password must be at least 6 characters
+            }
+          </small>
         }
+      </div>
 
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
-            <h2>Sign In</h2>
-
-            <!-- USERNAME -->
-            <div class="form-group">
-                <input type="text" formControlName="username" placeholder="Username or Email" />
-
-                @if ((username?.touched || submitted) && username?.invalid) {
-                <small class="error-text">
-                    @if (username?.errors?.['required']) { Username is required }
-                    @if (username?.errors?.['minlength']) { Minimum 3 characters required }
-                    @if (username?.errors?.['maxlength']) { Maximum 20 characters allowed }
-                    @if (username?.errors?.['pattern']) { Only letters, numbers, dot and underscore allowed }
-                </small>
-                }
-            </div>
-
-            <!-- PASSWORD -->
-            <div class="form-group">
-                <input type="password" formControlName="password" placeholder="Password" />
-
-                @if ((password?.touched || submitted) && password?.invalid) {
-                <small class="error-text">
-                    @if (password?.errors?.['required']) { Password is required }
-                    @if (password?.errors?.['pattern']) {
-                    Password must be 6–20 chars with uppercase, lowercase, number, special character
-                    }
-                </small>
-                }
-            </div>
-
-            <button type="submit" class="login-btn">
-                Sign In
-            </button>
-
-        </form>
-
-    </div>
+      <button type="submit" class="login-btn" [disabled]="(loading$ | async) || false">
+        @if (loading$ | async) {
+          <span>Signing in...</span>
+        } @else {
+          <span>Sign In</span>
+        }
+      </button>
+    </form>
+  </div>
 </div>

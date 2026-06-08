@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { login } from '../../states/auth.actions';
-import { selectAuthError } from '../../states/auth.selectors';
+import { login, logout } from '../../states/auth.actions';
+import { selectAuthError, selectLoading } from '../../states/auth.selectors';
 
 @Component({
   selector: 'app-login',
@@ -32,26 +32,23 @@ export class Login implements OnInit {
   loginForm: FormGroup;
 
   error$ = this.store.select(selectAuthError);
+  loading$ = this.store.select(selectLoading);
 
   constructor(private fb: FormBuilder) {
 
     this.loginForm = this.fb.group({
-      username: [
+      email: [
         '',
         [
           Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-          Validators.pattern(/^[a-zA-Z0-9._]{3,20}$/)
+          Validators.email
         ]
       ],
       password: [
         '',
         [
           Validators.required,
-          Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
-          )
+          Validators.minLength(6)
         ]
       ]
     });
@@ -63,8 +60,8 @@ export class Login implements OnInit {
     this.error$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(error => {
         if (error) {
-          this.loginForm.reset();
-          this.submitted = false;
+          // Keep the form values to allow user correction
+          // but you can reset if preferred
         }
       });
   }
@@ -74,16 +71,13 @@ export class Login implements OnInit {
 
     if (this.loginForm.invalid) return;
 
-    const { username, password } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
-    this.store.dispatch(login({ username, password }));
-
-    // 🔥 OPTIONAL: navigate after success (needs success action in effect)
-    // this.router.navigate(['/']);
+    this.store.dispatch(login({ email, password }));
   }
 
-  get username() {
-    return this.loginForm.get('username');
+  get email() {
+    return this.loginForm.get('email');
   }
 
   get password() {
