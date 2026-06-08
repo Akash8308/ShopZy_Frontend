@@ -23,3 +23,13 @@ export const logout = createAction(
 export const logout$ = createAction(
     '[Auth] Logout Success'
 );
+
+export const register = createAction(
+    '[Auth] Register',
+    props<{ name: string, email: string; password: string }>()
+)
+
+export const registrationFailure = createAction(
+    '[Auth] Registration Failed',
+    props<{ error: string }>()
+);

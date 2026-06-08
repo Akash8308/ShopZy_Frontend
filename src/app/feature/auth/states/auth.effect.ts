@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { StorageService } from '../../../core/auth/services/storage.service';
 import { ROUTES } from '../../../constants/routes.constant';
-import { LoginRequest } from '../../../model/auth.model';
+import { LoginRequest, RegisterRequest } from '../../../model/auth.model';
+import { create } from 'domain';
 
 @Injectable()
 export class AuthEffects {
@@ -56,6 +57,29 @@ export class AuthEffects {
                 })
             ),
         { dispatch: false }
+    );
+
+    register$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.register),
+            switchMap(({ name, email, password }) => {
+                const request: RegisterRequest = { name, email, password };
+                return this.authService.register(request).pipe(
+                    map(response => 
+                        AuthActions.loginSuccess({ response })
+                    ),
+                    catchError(error => {
+                        const errorMessage = error?.error?.message || 
+                                           error?.message || 
+                                           'Invalid email or password';
+                        console.error('Login error:', error);
+                        return of(
+                            AuthActions.registrationFailure({ error: errorMessage })
+                        );
+                    })
+                );
+            })
+        )
     );
 
     /**

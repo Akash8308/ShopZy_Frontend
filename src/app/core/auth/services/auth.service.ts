@@ -3,7 +3,7 @@ import { Observable, tap, catchError, of } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { TokenService } from './token.service';
 import { StorageService } from './storage.service';
-import { LoginRequest, LoginResponse, User, RefreshTokenRequest, RefreshTokenResponse } from '../../../model/auth.model';
+import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User, RefreshTokenRequest, RefreshTokenResponse } from '../../../model/auth.model';
 import { API_ENDPOINTS } from '../../../constants/api-endpoints.constant';
 
 /**
@@ -29,6 +29,16 @@ export class AuthService {
    */
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.api.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, request).pipe(
+      tap(response => this.handleAuthSuccess(response)),
+      catchError(error => {
+        console.error('Login failed:', error);
+        throw error;
+      })
+    );
+  }
+  
+  register(request: RegisterRequest): Observable<RegisterResponse> {
+    return this.api.post<RegisterResponse>(API_ENDPOINTS.AUTH.REGISTER, request).pipe(
       tap(response => this.handleAuthSuccess(response)),
       catchError(error => {
         console.error('Login failed:', error);
