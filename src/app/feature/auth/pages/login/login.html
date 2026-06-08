@@ -1,0 +1,22 @@
+@if (errorMessage) {
+<div class="error-message">
+    <span>⚠️</span>
+    {{ errorMessage }}
+</div>
+}
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+        <input type="text" formControlName="username" placeholder="Username or Email" (input)="clearError()" />
+    </div>
+
+    <div class="form-group">
+        <input type="password" formControlName="password" placeholder="Password" (input)="clearError()" />
+    </div>
+
+    <button type="submit" class="login-btn" [disabled]="loginForm.invalid">
+        Sign In
+    </button>
+
+</form>

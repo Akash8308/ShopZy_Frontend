@@ -1,38 +1,92 @@
 .header {
-  background-color: #1f2937;
-  color: #fff;
-  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .container {
-  width: 90%;
-  margin: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 /* Logo */
+
 .logo {
-  font-size: 22px;
-  font-weight: bold;
-  color: #f59e0b;
+  font-size: 32px;
+  font-weight: 700;
+  color: #ef4f5f;
+  cursor: pointer;
 }
 
-/* Navigation */
+/* Search */
+
+.search-bar {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 40px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  box-shadow: 0 2px 12px rgba(28, 28, 28, 0.08);
+}
+
+.search-bar input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: #1c1c1c;
+}
+
+/* Nav */
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .nav a {
-  margin: 0 12px;
   text-decoration: none;
-  color: #e5e7eb;
+  color: #696969;
+  font-size: 16px;
   font-weight: 500;
+  transition: 0.3s;
 }
 
 .nav a:hover {
-  color: #f59e0b;
+  color: #ef4f5f;
 }
 
-/* Actions */
-.actions {
-  font-size: 20px;
+/* Auth Buttons */
+
+.login-btn {
+  border: none;
+  background: transparent;
+  color: #696969;
+  font-size: 16px;
   cursor: pointer;
+}
+
+.signup-btn {
+  border: none;
+  background: #ef4f5f;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.signup-btn:hover {
+  background: #e23d4e;
 }
