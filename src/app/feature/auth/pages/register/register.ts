@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 
 
+import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -29,6 +30,7 @@ export class Register {
   private router = inject(Router);
 
   submitted = false;
+  showPassword = false;
 
   RegistrationForm: FormGroup;
 
@@ -38,27 +40,45 @@ export class Register {
   constructor(private fb: FormBuilder) {
 
     this.RegistrationForm = this.fb.group({
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3)
+          ]
+        ],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.email
+          ]
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/
+            )
+          ]
         ]
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6)
-        ]
-      ],
-      name: [
-        '',
-        [
-          Validators.required,
-        ]
-      ]
-    });
+      });
+  }
+
+  protected onLoginClicked() {
+    this.router.navigate(['/login']);
+  }
+
+  
+  protected onloginWithGithubClicked(){
+    window.location.href =
+        `${environment.apiBaseUrl}/oauth2/authorization/github`;
+  }
+  
+  protected onloginWithGoogleClicked(){
+    window.location.href =
+        `${environment.apiBaseUrl}/oauth2/authorization/google`;
   }
 
   ngOnInit(): void {

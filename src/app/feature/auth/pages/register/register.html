@@ -1,88 +1,94 @@
-<div class="login-page">
-  <div class="login-card">
-    <!-- ✅ ERROR MESSAGE -->
-    @if (error$ | async; as error) {
-      @if (error) {
-        <div class="error-message">
-          <span class="error-icon">⚠️</span>
-          <span class="error-text-msg">{{ error }}</span>
+<div class="register-page">
+  <div class="background-blur blur-1"></div>
+  <div class="background-blur blur-2"></div>
+  <div class="background-blur blur-3"></div>
+
+  <div class="register-container">
+    <div class="brand-panel">
+      <h1>ShopZy</h1>
+      <p>
+        Create your account and start exploring products, orders and personalized recommendations.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature">
+          <span>✓</span>
+          <p>Fast & Secure Authentication</p>
         </div>
+
+        <div class="feature">
+          <span>✓</span>
+          <p>Google & GitHub Sign In</p>
+        </div>
+
+        <div class="feature">
+          <span>✓</span>
+          <p>Modern Shopping Experience</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="register-card">
+      @if (error$ | async; as error) {
+        @if (error) {
+          <div class="error-message">
+            {{ error }}
+          </div>
+        }
       }
-    }
 
-    <form [formGroup]="RegistrationForm" (ngSubmit)="onSubmit()">
-      <h2>Register</h2>
+      <h2>Create Account</h2>
 
-      <!-- NAME -->
-      <div class="form-group">
-        <input
-          type="name"
-          formControlName="name"
-          placeholder="Name"
-          [disabled]="(loading$ | async) || false"
-        />
+      <form [formGroup]="RegistrationForm" (ngSubmit)="onSubmit()">
+        <div class="input-group">
+          <input type="text" formControlName="username" placeholder=" " />
+          <label>Username</label>
+        </div>
 
-        @if ((name?.touched || submitted) && name?.invalid) {
-          <small class="error-text">
-            @if (name?.errors?.['required']) {
-              name is required
-            }
-            @if (name?.errors?.['name']) {
-              Please enter your name!
-            }
-          </small>
-        }
+        <div class="input-group">
+          <input type="email" formControlName="email" placeholder=" " />
+          <label>Email Address</label>
+        </div>
+
+        <div class="input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder=" "
+          />
+          <label>Password</label>
+
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+
+        <button type="submit" class="primary-btn" [disabled]="(loading$ | async) || false">
+          @if (loading$ | async) {
+            Creating Account...
+          } @else {
+            Create Account
+          }
+        </button>
+      </form>
+
+      <div class="divider">
+        <span>OR</span>
       </div>
 
-      <!-- EMAIL -->
-      <div class="form-group">
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Email"
-          [disabled]="(loading$ | async) || false"
-        />
-
-        @if ((email?.touched || submitted) && email?.invalid) {
-          <small class="error-text">
-            @if (email?.errors?.['required']) {
-              Email is required
-            }
-            @if (email?.errors?.['email']) {
-              Please enter a valid email
-            }
-          </small>
-        }
-      </div>
-
-      <!-- PASSWORD -->
-      <div class="form-group">
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="Password"
-          [disabled]="(loading$ | async) || false"
-        />
-
-        @if ((password?.touched || submitted) && password?.invalid) {
-          <small class="error-text">
-            @if (password?.errors?.['required']) {
-              Password is required
-            }
-            @if (password?.errors?.['minlength']) {
-              Password must be at least 6 characters
-            }
-          </small>
-        }
-      </div>
-
-      <button type="submit" class="login-btn" [disabled]="(loading$ | async) || false">
-        @if (loading$ | async) {
-          <span>Signing in...</span>
-        } @else {
-          <span>Sign In</span>
-        }
+      <button class="social-btn github" (click)="onloginWithGithubClicked()">
+        Login with GitHub
       </button>
-    </form>
+
+      <button class="social-btn google" (click)="onloginWithGoogleClicked()">
+        Login with Google
+      </button>
+
+      <div class="footer-link">
+        Already have an account?
+
+        <button class="text-btn" (click)="onLoginClicked()">Sign In</button>
+      </div>
+    </div>
   </div>
 </div>
