@@ -66,7 +66,7 @@ export class AuthEffects {
                 const request: RegisterRequest = { username, email, password };
                 return this.authService.register(request).pipe(
                     map(response => 
-                        AuthActions.loginSuccess({ response })
+                        AuthActions.registerSuccess({ response })
                     ),
                     catchError(error => {
                         const errorMessage = error?.error?.message || 
