@@ -62,9 +62,25 @@
           <span>Sign In</span>
         }
       </button>
-      <button type="button" class="login-btn" [disabled]="(loading$ | async) || false">
-        <a [routerLink]="['/register']"> Register </a>
-      </button>
     </form>
+    <button type="button" class="login-btn" [disabled]="(loading$ | async) || false">
+      <a [routerLink]="['/register']"> Register </a>
+    </button>
+    <button
+      type="button"
+      class="login-btn"
+      (click)="loginWithGithub()"
+      [disabled]="(loading$ | async) || false"
+    >
+      Login with Github
+    </button>
+    <button
+      type="button"
+      class="login-btn"
+      (click)="loginWithGoogle()"
+      [disabled]="(loading$ | async) || false"
+    >
+      Login with Google
+    </button>
   </div>
 </div>

@@ -7,7 +7,7 @@ import {
   Validators
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-
+import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -84,4 +84,14 @@ export class Login implements OnInit {
   get password() {
     return this.loginForm.get('password');
   }
+
+  protected loginWithGithub() {
+  window.location.href =
+    `${environment.apiBaseUrl}/oauth2/authorization/github`;
+  }
+
+  protected loginWithGoogle() {
+  window.location.href =
+    `${environment.apiBaseUrl}/oauth2/authorization/google`;
+}
 }
