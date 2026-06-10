@@ -97,9 +97,9 @@ export class Register {
 
     if (this.RegistrationForm.invalid) return;
 
-    const { name, email, password } = this.RegistrationForm.value;
+    const { username, email, password } = this.RegistrationForm.value;
 
-    this.store.dispatch(register({ name, email, password }));
+    this.store.dispatch(register({ username, email, password }));
   }
 
   get email() {

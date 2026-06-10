@@ -62,8 +62,8 @@ export class AuthEffects {
     register$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.register),
-            switchMap(({ name, email, password }) => {
-                const request: RegisterRequest = { name, email, password };
+            switchMap(({ username, email, password }) => {
+                const request: RegisterRequest = { username, email, password };
                 return this.authService.register(request).pipe(
                     map(response => 
                         AuthActions.loginSuccess({ response })

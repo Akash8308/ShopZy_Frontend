@@ -93,5 +93,5 @@ export class Login implements OnInit {
   protected loginWithGoogle() {
   window.location.href =
     `${environment.apiBaseUrl}/oauth2/authorization/google`;
-  }
+}
 }
