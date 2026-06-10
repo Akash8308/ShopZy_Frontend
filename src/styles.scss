@@ -1,1 +1,11 @@
- 
+.app-layout {
+  min-height: 100vh;
+
+  background: linear-gradient(
+    135deg,
+    #fff3e8 0%,
+    #ffd6c9 35%,
+    #ffc7d5 70%,
+    #ffe9dd 100%
+  );
+}
