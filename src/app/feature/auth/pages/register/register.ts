@@ -7,7 +7,6 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
@@ -19,7 +18,7 @@ import { selectAuthError, selectLoading } from '../../states/auth.selectors';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   standalone: true,
   templateUrl: './register.html',
   styleUrl: '../../auth.scss',
