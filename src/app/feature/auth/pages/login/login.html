@@ -1,86 +1,100 @@
-<div class="login-page">
-  <div class="login-card">
-    <!-- ✅ ERROR MESSAGE -->
-    @if (error$ | async; as error) {
-      @if (error) {
-        <div class="error-message">
-          <span class="error-icon">⚠️</span>
-          <span class="error-text-msg">{{ error }}</span>
-        </div>
+<div class="auth-page">
+  <div class="auth-container">
+    <div class="auth-card">
+      @if (error$ | async; as error) {
+        @if (error) {
+          <div class="error-message">
+            {{ error }}
+          </div>
+        }
       }
-    }
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <h2>Log In</h2>
-
-      <!-- EMAIL -->
-      <div class="form-group">
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Email"
-          [disabled]="(loading$ | async) || false"
-        />
-
-        @if ((email?.touched || submitted) && email?.invalid) {
-          <small class="error-text">
-            @if (email?.errors?.['required']) {
-              Email is required
-            }
-            @if (email?.errors?.['email']) {
-              Please enter a valid email
-            }
-          </small>
-        }
+      <div class="logo">
+        <img src="assets/icons/ShopZy_Logo_Light.png" alt="ShopZy Logo" />
       </div>
 
-      <!-- PASSWORD -->
-      <div class="form-group">
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="Password"
-          [disabled]="(loading$ | async) || false"
-        />
+      <h1>ShopZy</h1>
 
-        @if ((password?.touched || submitted) && password?.invalid) {
-          <small class="error-text">
-            @if (password?.errors?.['required']) {
-              Password is required
-            }
-            @if (password?.errors?.['minlength']) {
-              Password must be at least 6 characters
-            }
-          </small>
-        }
+      <div class="card-header">
+        <h2>Welcome Back</h2>
+        <p>Login to continue your ShopZy journey</p>
       </div>
 
-      <button type="submit" class="login-btn" [disabled]="(loading$ | async) || false">
-        @if (loading$ | async) {
-          <span>Signing in...</span>
-        } @else {
-          <span>Sign In</span>
-        }
-      </button>
-    </form>
-    <button type="button" class="login-btn" [disabled]="(loading$ | async) || false">
-      <a [routerLink]="['/register']"> Register </a>
-    </button>
-    <button
-      type="button"
-      class="login-btn"
-      (click)="loginWithGithub()"
-      [disabled]="(loading$ | async) || false"
-    >
-      Login with Github
-    </button>
-    <button
-      type="button"
-      class="login-btn"
-      (click)="loginWithGoogle()"
-      [disabled]="(loading$ | async) || false"
-    >
-      Login with Google
-    </button>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="input-group">
+          <label for="email">Email Address</label>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter email address"
+            [disabled]="(loading$ | async) || false"
+          />
+
+          @if ((email?.touched || submitted) && email?.invalid) {
+            <small class="error-text">
+              @if (email?.errors?.['required']) {
+                Email is required
+              }
+              @if (email?.errors?.['email']) {
+                Please enter a valid email
+              }
+            </small>
+          }
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Enter password"
+            [disabled]="(loading$ | async) || false"
+          />
+
+          @if ((password?.touched || submitted) && password?.invalid) {
+            <small class="error-text">
+              @if (password?.errors?.['required']) {
+                Password is required
+              }
+              @if (password?.errors?.['minlength']) {
+                Password must be at least 6 characters
+              }
+            </small>
+          }
+        </div>
+
+        <button type="submit" class="primary-btn" [disabled]="(loading$ | async) || false">
+          @if (loading$ | async) {
+            Signing in...
+          } @else {
+            Sign In
+          }
+        </button>
+      </form>
+
+      <div class="divider">
+        <span>OR CONTINUE WITH</span>
+      </div>
+
+      <div class="social-buttons">
+        <button type="button" class="social-btn google" (click)="loginWithGoogle()">
+          Continue with Google
+        </button>
+
+        <button type="button" class="social-btn github" (click)="loginWithGithub()">
+          Continue with GitHub
+        </button>
+      </div>
+
+      <div class="footer-link">
+        Don’t have an account?
+
+        <button type="button" class="text-btn" [routerLink]="['/register']">Sign Up</button>
+      </div>
+    </div>
   </div>
 </div>

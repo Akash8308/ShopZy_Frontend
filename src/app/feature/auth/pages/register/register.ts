@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-
+import { RouterLink } from '@angular/router';
 
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
@@ -19,10 +19,10 @@ import { selectAuthError, selectLoading } from '../../states/auth.selectors';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   standalone: true,
   templateUrl: './register.html',
-  styleUrl: './register.scss',
+  styleUrl: '../../auth.scss',
 })
 export class Register {
   private store = inject(Store);
@@ -113,5 +113,15 @@ export class Register {
 
   get name() {
     return this.RegistrationForm.get('name');
+  }
+
+  protected loginWithGithub() {
+  window.location.href =
+    `${environment.apiBaseUrl}/oauth2/authorization/github`;
+  }
+
+  protected loginWithGoogle() {
+  window.location.href =
+    `${environment.apiBaseUrl}/oauth2/authorization/google`;
   }
 }

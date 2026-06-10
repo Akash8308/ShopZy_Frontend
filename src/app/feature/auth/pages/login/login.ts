@@ -20,7 +20,7 @@ import { selectAuthError, selectLoading } from '../../states/auth.selectors';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrl: '../../auth.scss'
 })
 export class Login implements OnInit {
 
@@ -93,5 +93,5 @@ export class Login implements OnInit {
   protected loginWithGoogle() {
   window.location.href =
     `${environment.apiBaseUrl}/oauth2/authorization/google`;
-}
+  }
 }
