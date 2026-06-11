@@ -1,14 +1,21 @@
-import { inject, Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as AuthActions from './auth.actions';
-import { map, switchMap, tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import { of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
+
+import * as AuthActions from './auth.actions';
+
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { StorageService } from '../../../core/auth/services/storage.service';
+
 import { ROUTES } from '../../../constants/routes.constant';
-import { LoginRequest, RegisterRequest } from '../../../model/auth.model';
-import { create } from 'domain';
+import {
+    LoginRequest,
+    RegisterRequest
+} from '../../../model/auth.model';
 
 @Injectable()
 export class AuthEffects {
@@ -18,80 +25,101 @@ export class AuthEffects {
     private readonly authService = inject(AuthService);
     private readonly storageService = inject(StorageService);
 
-    /**
-     * Login effect - calls backend API
-     */
     login$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.login),
             switchMap(({ email, password }) => {
-                const request: LoginRequest = { email, password };
+
+                const request: LoginRequest = {
+                    email,
+                    password
+                };
+
                 return this.authService.login(request).pipe(
-                    map(response => 
+                    map(response =>
                         AuthActions.loginSuccess({ response })
                     ),
-                    catchError(error => {
-                        const errorMessage = error?.error?.message || 
-                                           error?.message || 
-                                           'Invalid email or password';
-                        console.error('Login error:', error);
-                        return of(
-                            AuthActions.loginFailure({ error: errorMessage })
-                        );
-                    })
+                    catchError(error =>
+                        of(
+                            AuthActions.loginFailure({
+                                error:
+                                    error?.error?.message ||
+                                    error?.message ||
+                                    'Invalid email or password'
+                            })
+                        )
+                    )
                 );
             })
         )
-    );
-
-    /**
-     * Redirect after successful login
-     */
-    redirectAfterLogin$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(AuthActions.loginSuccess),
-                tap(({ response }) => {
-                    console.log('Login successful, redirecting to dashboard');
-                    this.router.navigate([ROUTES.HOME]);
-                })
-            ),
-        { dispatch: false }
     );
 
     register$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.register),
             switchMap(({ username, email, password }) => {
-                const request: RegisterRequest = { username, email, password };
+
+                const request: RegisterRequest = {
+                    username,
+                    email,
+                    password
+                };
+
                 return this.authService.register(request).pipe(
-                    map(response => 
+                    map(response =>
                         AuthActions.registerSuccess({ response })
                     ),
-                    catchError(error => {
-                        const errorMessage = error?.error?.message || 
-                                           error?.message || 
-                                           'Invalid email or password';
-                        console.error('Login error:', error);
-                        return of(
-                            AuthActions.registrationFailure({ error: errorMessage })
-                        );
-                    })
+                    catchError(error =>
+                        of(
+                            AuthActions.registrationFailure({
+                                error:
+                                    error?.error?.message ||
+                                    error?.message ||
+                                    'Registration failed'
+                            })
+                        )
+                    )
                 );
             })
         )
     );
 
-    /**
-     * Handle logout
-     */
+    authSuccess$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    AuthActions.loginSuccess,
+                    AuthActions.registerSuccess
+                ),
+                tap(({ response }) => {
+
+                    this.storageService.setAccessToken(
+                        response.accessToken
+                    );
+
+                    this.storageService.setRefreshToken(
+                        response.refreshToken
+                    );
+
+                    this.router.navigate([
+                        ROUTES.HOME
+                    ]);
+                })
+            ),
+        { dispatch: false }
+    );
+
     logout$ = createEffect(
         () =>
             this.actions$.pipe(
                 ofType(AuthActions.logout),
                 tap(() => {
+
                     this.authService.logout();
-                    this.router.navigate([ROUTES.AUTH.LOGIN]);
+
+                    this.router.navigate([
+                        ROUTES.AUTH.LOGIN
+                    ]);
                 })
             ),
         { dispatch: false }

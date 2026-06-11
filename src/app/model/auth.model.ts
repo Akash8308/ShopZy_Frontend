@@ -23,11 +23,12 @@ export interface RegisterRequest{
 }
 
 export interface RegisterResponse{
-    accessToken: string;
+  accessToken: string;
   refreshToken: string;
   userId: number;
   email: string;
   role: string;
+  user: User
 }
 
 export interface User {

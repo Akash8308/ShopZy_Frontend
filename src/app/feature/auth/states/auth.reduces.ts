@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
+
 import { initialState } from './auth.states';
 import { User } from '../../../model/auth.model';
 
@@ -7,15 +8,20 @@ export const authReducer = createReducer(
 
     initialState,
 
-    // Login action - set loading state
     on(AuthActions.login, (state) => ({
         ...state,
         loading: true,
         error: null
     })),
 
-    // Login success - store tokens and user
+    on(AuthActions.register, (state) => ({
+        ...state,
+        loading: true,
+        error: null
+    })),
+
     on(AuthActions.loginSuccess, (state, { response }) => {
+
         const user: User = {
             id: response.userId,
             email: response.email,
@@ -24,8 +30,9 @@ export const authReducer = createReducer(
             username: '',
             enabled: true,
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         };
+
         return {
             ...state,
             loading: false,
@@ -37,7 +44,30 @@ export const authReducer = createReducer(
         };
     }),
 
-    // Login failure
+    on(AuthActions.registerSuccess, (state, { response }) => {
+
+        const user: User = {
+            id: response.user.id,
+            email: response.user.email,
+            role: response.user.role,
+            username: response.user.username,
+            name: response.user.username,
+            enabled: true,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        return {
+            ...state,
+            loading: false,
+            isAuthenticated: true,
+            user,
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
+            error: null
+        };
+    }),
+
     on(AuthActions.loginFailure, (state, { error }) => ({
         ...state,
         loading: false,
@@ -45,7 +75,6 @@ export const authReducer = createReducer(
         isAuthenticated: false
     })),
 
-    // Registration failure
     on(AuthActions.registrationFailure, (state, { error }) => ({
         ...state,
         loading: false,
@@ -53,6 +82,5 @@ export const authReducer = createReducer(
         isAuthenticated: false
     })),
 
-    // Logout
     on(AuthActions.logout, () => initialState)
 );
