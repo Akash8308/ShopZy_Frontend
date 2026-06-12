@@ -7,6 +7,6 @@ export const ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
   },
-  HOME: '/dashboard',
+  HOME: '/home',
   RESTAURANTS: '/restaurant-list',
 } as const;
