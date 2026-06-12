@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import { STORAGE_KEYS } from '../../../constants/storage-keys.constant';
 import { User } from '../../../model/auth.model';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * StorageService
@@ -14,14 +15,27 @@ import { User } from '../../../model/auth.model';
 })
 export class StorageService {
 
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
+
+  private get isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+
   // ============ Access Token (Session Storage) ============
 
   setAccessToken(token: string): void {
-    sessionStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token);
+    if (this.isBrowser) {
+      sessionStorage.setItem('accessToken', token);
+    }
   }
 
   getAccessToken(): string | null {
-    return sessionStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
+    return this.isBrowser
+      ? sessionStorage.getItem('accessToken')
+      : null;
   }
 
   removeAccessToken(): void {

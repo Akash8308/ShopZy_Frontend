@@ -124,4 +124,28 @@ export class AuthEffects {
             ),
         { dispatch: false }
     );
+
+    exchange$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(AuthActions.exchange),
+        switchMap(({ token }) => {
+
+        return this.authService.exchange(token).pipe(
+            map(response =>
+            AuthActions.loginSuccess({ response })
+            ),
+            catchError(error =>
+            of(
+                AuthActions.loginFailure({
+                error:
+                    error?.error?.message ||
+                    error?.message ||
+                    'Token not approved'
+                })
+            )
+            )
+        );
+        })
+        )
+    )
 }

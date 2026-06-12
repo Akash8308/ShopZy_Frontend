@@ -26,8 +26,7 @@ export const authReducer = createReducer(
             id: response.userId,
             email: response.email,
             role: response.role,
-            name: '',
-            username: '',
+            name: response.name,
             enabled: true,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
@@ -47,11 +46,10 @@ export const authReducer = createReducer(
     on(AuthActions.registerSuccess, (state, { response }) => {
 
         const user: User = {
-            id: response.user.id,
-            email: response.user.email,
-            role: response.user.role,
-            username: response.user.username,
-            name: response.user.username,
+            id: response.userId,
+            email: response.email,
+            role: response.role,
+            name: response.name,
             enabled: true,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()

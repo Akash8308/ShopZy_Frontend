@@ -3,7 +3,7 @@ import { Observable, tap, catchError, of } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { TokenService } from './token.service';
 import { StorageService } from './storage.service';
-import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse, User, RefreshTokenRequest, RefreshTokenResponse } from '../../../model/auth.model';
+import { LoginRequest, AuthResponse, RegisterRequest, User, RefreshTokenRequest, RefreshTokenResponse } from '../../../model/auth.model';
 import { API_ENDPOINTS } from '../../../constants/api-endpoints.constant';
 
 /**
@@ -27,8 +27,8 @@ export class AuthService {
    * Perform login with email and password
    * Stores tokens and user data on success
    */
-  login(request: LoginRequest): Observable<LoginResponse> {
-    return this.api.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, request).pipe(
+  login(request: LoginRequest): Observable<AuthResponse> {
+    return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, request).pipe(
       tap(response => this.handleAuthSuccess(response)),
       catchError(error => {
         console.error('Login failed:', error);
@@ -37,8 +37,18 @@ export class AuthService {
     );
   }
   
-  register(request: RegisterRequest): Observable<RegisterResponse> {
-    return this.api.post<RegisterResponse>(API_ENDPOINTS.AUTH.REGISTER, request).pipe(
+  exchange(token: string): Observable<AuthResponse> {
+    return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.EXCHANGE, token).pipe(
+      tap(response => this.handleAuthSuccess(response)),
+      catchError(error => {
+        console.error('Login failed:', error);
+        throw error;
+      })
+    );
+  }
+  
+  register(request: RegisterRequest): Observable<AuthResponse> {
+    return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.REGISTER, request).pipe(
       tap(response => this.handleAuthSuccess(response)),
       catchError(error => {
         console.error('Login failed:', error);
@@ -113,7 +123,7 @@ export class AuthService {
   /**
    * Internal: handle successful authentication
    */
-  private handleAuthSuccess(response: LoginResponse): void {
+  private handleAuthSuccess(response: AuthResponse): void {
     // Store tokens
     this.storageService.setAccessToken(response.accessToken);
     this.storageService.setRefreshToken(response.refreshToken);
@@ -124,7 +134,6 @@ export class AuthService {
       email: response.email,
       role: response.role,
       name: '',
-      username: '',
       enabled: true,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

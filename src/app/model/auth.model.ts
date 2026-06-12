@@ -8,11 +8,12 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   userId: number;
   email: string;
+  name: string;
   role: string;
 }
 
@@ -22,19 +23,9 @@ export interface RegisterRequest{
     password: string;
 }
 
-export interface RegisterResponse{
-  accessToken: string;
-  refreshToken: string;
-  userId: number;
-  email: string;
-  role: string;
-  user: User
-}
-
 export interface User {
   id: number;
   name: string;
-  username: string;
   email: string;
   role: string;
   enabled: boolean;

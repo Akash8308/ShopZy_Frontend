@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DashboardItem, DashboardCardComponent } from './dashboard-card/dashboard-card';
 import { HeroBannerComponent } from "./hero-banner/hero-banner";
+import { ActivatedRoute } from '@angular/router';
 import { RecommendationSection } from "./recommendation-section/recommendation-section";
+import { Store } from '@ngrx/store';
+import { exchange } from '../auth/states/auth.actions';
 
 
 @Component({
@@ -11,6 +14,18 @@ import { RecommendationSection } from "./recommendation-section/recommendation-s
   imports: [HeroBannerComponent, DashboardCardComponent, RecommendationSection]
 })
 export class HomeComponent {
+
+  private route = inject(ActivatedRoute);
+  private store = inject(Store);
+
+  ngOnInit() {
+  const token = this.route.snapshot.queryParamMap.get('token');
+
+  if (token) {
+    this.store.dispatch(exchange({ token })
+    );
+  }
+}
 
   keepShopping: DashboardItem[] = [
   {
