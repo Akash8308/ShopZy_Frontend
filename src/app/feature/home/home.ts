@@ -22,7 +22,7 @@ export class HomeComponent {
   const token = this.route.snapshot.queryParamMap.get('token');
 
   if (token) {
-    this.store.dispatch(exchange({ token })
+    this.store.dispatch(exchange({ token }) 
     );
   }
 }
