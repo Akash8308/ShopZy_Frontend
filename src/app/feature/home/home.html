@@ -1,0 +1,24 @@
+<div class="home-container">
+  <!-- Hero Banner -->
+  <app-hero-banner></app-hero-banner>
+
+  <!-- Dashboard Cards -->
+  <section class="dashboard-grid">
+    <app-dashboard-card title="Keep shopping for" [items]="keepShopping"> </app-dashboard-card>
+
+    <app-dashboard-card title="Continue shopping deals" [items]="deals"> </app-dashboard-card>
+
+    <app-dashboard-card title="Pick up where you left off" [items]="gamingChairs">
+    </app-dashboard-card>
+
+    <app-dashboard-card title="Buy again" [items]="buyAgain"> </app-dashboard-card>
+
+    <app-dashboard-card title="Deals related to items you've saved" [items]="savedItems">
+    </app-dashboard-card>
+
+    <app-dashboard-card title="Sponsored" [items]="sponsoredProducts"> </app-dashboard-card>
+  </section>
+
+  <!-- Recommended -->
+  <app-recommendation-section></app-recommendation-section>
+</div>
