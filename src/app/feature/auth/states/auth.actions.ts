@@ -45,3 +45,8 @@ export const exchange = createAction(
 export const logout = createAction(
     '[Auth] Logout'
 );
+
+export const callback = createAction(
+    '[Auth] Callback',
+    props<{ code: string}>
+);

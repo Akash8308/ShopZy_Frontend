@@ -6,15 +6,6 @@ import { StorageService } from './storage.service';
 import { LoginRequest, AuthResponse, RegisterRequest, User, RefreshTokenRequest, RefreshTokenResponse } from '../../../model/auth.model';
 import { API_ENDPOINTS } from '../../../constants/api-endpoints.constant';
 
-/**
- * AuthService
- * Responsibility: Orchestrates authentication lifecycle
- * - login() - performs login with email/password
- * - logout() - clears authentication state
- * - isAuthenticated() - checks if user has valid tokens
- * - getAccessToken() - retrieves stored access token
- * - refreshToken() - refreshes expired access token
- */
 @Injectable({
   providedIn: 'root'
 })
@@ -23,10 +14,6 @@ export class AuthService {
   private readonly tokenService = inject(TokenService);
   private readonly storageService = inject(StorageService);
 
-  /**
-   * Perform login with email and password
-   * Stores tokens and user data on success
-   */
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.LOGIN, request).pipe(
       tap(response => this.handleAuthSuccess(response)),
@@ -38,7 +25,7 @@ export class AuthService {
   }
   
   exchange(token: string): Observable<AuthResponse> {
-    return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.EXCHANGE, token).pipe(
+    return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.EXCHANGE, {token: token}).pipe(
       tap(response => this.handleAuthSuccess(response)),
       catchError(error => {
         console.error('Login failed:', error);
@@ -57,41 +44,27 @@ export class AuthService {
     );
   }
 
-  /**
-   * Perform logout
-   * Clears all stored tokens and user data
-   */
   logout(): void {
     this.storageService.clearAll();
   }
 
-  /**
-   * Check if user is authenticated
-   * Returns true if access token exists and is not expired
-   */
   isAuthenticated(): boolean {
     const token = this.getAccessToken();
     if (!token) return false;
     return !this.tokenService.isTokenExpired(token);
   }
 
-  /**
-   * Retrieve stored access token
-   */
+  
   getAccessToken(): string | null {
     return this.storageService.getAccessToken();
   }
 
-  /**
-   * Retrieve stored refresh token
-   */
+  
   getRefreshToken(): string | null {
     return this.storageService.getRefreshToken();
   }
 
-  /**
-   * Refresh the access token using refresh token
-   */
+  
   refreshToken(): Observable<RefreshTokenResponse> {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
@@ -101,7 +74,6 @@ export class AuthService {
     const request: RefreshTokenRequest = { refreshToken };
     return this.api.post<RefreshTokenResponse>(API_ENDPOINTS.AUTH.REFRESH, request).pipe(
       tap(response => {
-        // Store the new tokens
         this.storageService.setAccessToken(response.accessToken);
         this.storageService.setRefreshToken(response.refreshToken);
       }),
@@ -113,16 +85,12 @@ export class AuthService {
     );
   }
 
-  /**
-   * Get current user from storage
-   */
+  
   getCurrentUser(): User | null {
     return this.storageService.getUser();
   }
 
-  /**
-   * Internal: handle successful authentication
-   */
+  
   private handleAuthSuccess(response: AuthResponse): void {
     // Store tokens
     this.storageService.setAccessToken(response.accessToken);

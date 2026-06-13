@@ -29,5 +29,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./feature/home/home')
         .then(c => c.HomeComponent)
+  },
+  {
+    path: 'callback',
+    loadComponent: () =>
+      import('./feature/auth/pages/callback/callback')
+        .then(c => c.Callback)
   }
 ];
