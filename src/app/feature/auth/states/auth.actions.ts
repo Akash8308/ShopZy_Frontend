@@ -39,14 +39,9 @@ export const registrationFailure = createAction(
 
 export const exchange = createAction(
     '[Auth] Exchange',
-    props<{ token: string }>()
+    props<{ code: string }>()
 );
 
 export const logout = createAction(
     '[Auth] Logout'
-);
-
-export const callback = createAction(
-    '[Auth] Callback',
-    props<{ code: string}>
 );

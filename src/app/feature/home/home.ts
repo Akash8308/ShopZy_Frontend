@@ -19,10 +19,10 @@ export class HomeComponent {
   private store = inject(Store);
 
   ngOnInit() {
-  const token = this.route.snapshot.queryParamMap.get('token');
+  const code = this.route.snapshot.queryParamMap.get('code');
 
-  if (token) {
-    this.store.dispatch(exchange({ token }) 
+  if (code) {
+    this.store.dispatch(exchange({ code }) 
     );
   }
 }

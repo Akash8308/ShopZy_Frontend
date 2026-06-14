@@ -128,9 +128,9 @@ export class AuthEffects {
     exchange$ = createEffect(() =>
     this.actions$.pipe(
         ofType(AuthActions.exchange),
-        switchMap(({ token }) => {
+        switchMap(({ code }) => {
 
-        return this.authService.exchange(token).pipe(
+        return this.authService.exchange(code).pipe(
             map(response =>
             AuthActions.loginSuccess({ response })
             ),
