@@ -24,8 +24,8 @@ export class AuthService {
     );
   }
   
-  exchange(token: string): Observable<AuthResponse> {
-    return this.api.post<AuthResponse>(API_ENDPOINTS.AUTH.EXCHANGE, {token: token}).pipe(
+  exchange(code: string): Observable<AuthResponse> {
+    return this.api.post<AuthResponse>( `${API_ENDPOINTS.AUTH.EXCHANGE}?code=${encodeURIComponent(code)}`, {}).pipe(
       tap(response => this.handleAuthSuccess(response)),
       catchError(error => {
         console.error('Login failed:', error);
