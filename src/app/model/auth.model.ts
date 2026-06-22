@@ -11,10 +11,7 @@ export interface LoginRequest {
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
-  userId: number;
-  email: string;
-  name: string;
-  role: string;
+  user: User
 }
 
 export interface RegisterRequest{

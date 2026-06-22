@@ -1,7 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { exchange } from '../../../auth/states/auth.actions';
+import { exchange, loginSuccess } from '../../../auth/states/auth.actions';
+import { Actions, ofType } from '@ngrx/effects';
+import { take } from 'rxjs';
+
 @Component({
   selector: 'app-callback',
   imports: [],
@@ -10,15 +13,25 @@ import { exchange } from '../../../auth/states/auth.actions';
 })
 export class Callback {
 
-   private route = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   private store = inject(Store);
+  private actions$ = inject(Actions);
 
-  public ngOnInit(){
-      const code = this.route.snapshot.queryParamMap.get('code');
-    
-      if (code) {
-        this.store.dispatch(exchange({ code }) 
-        );
-      }
+  ngOnInit() {
+    const code = this.activatedRoute.snapshot.queryParamMap.get('code');
+
+    if (code) {
+      this.store.dispatch(exchange({ code }) 
+      );
+      
+      this.actions$.pipe(
+          ofType(loginSuccess),
+          take(1)
+        ).subscribe(() => {
+          console.log('Exchange completed');
+          this.router.navigate(['/home']);
+        });
+    }
   }
 }

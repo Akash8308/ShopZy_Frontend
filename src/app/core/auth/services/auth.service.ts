@@ -98,9 +98,9 @@ export class AuthService {
 
     // Store minimal user data
     const user: User = {
-      id: response.userId,
-      email: response.email,
-      role: response.role,
+      id: response.user.id,
+      email: response.user.email,
+      role: response.user.role,
       name: '',
       enabled: true,
       createdAt: new Date().toISOString(),

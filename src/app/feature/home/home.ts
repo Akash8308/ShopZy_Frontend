@@ -23,14 +23,6 @@ export class HomeComponent {
   protected user! : User | null;
 
   ngOnInit() {
-  const code = this.route.snapshot.queryParamMap.get('code');
-
-  if (code) {
-    this.store.dispatch(exchange({ code }) 
-    );
-  }
-
-  
   this.user = this.storageService.getUser();
 }
 
