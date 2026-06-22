@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RecommendationSection } from "./recommendation-section/recommendation-section";
 import { Store } from '@ngrx/store';
 import { exchange } from '../auth/states/auth.actions';
+import { StorageService } from '../../core/auth/services/storage.service'
+import { User } from '../../model/auth.model';
 
 
 @Component({
@@ -17,6 +19,8 @@ export class HomeComponent {
 
   private route = inject(ActivatedRoute);
   private store = inject(Store);
+  private storageService = inject(StorageService);
+  protected user! : User | null;
 
   ngOnInit() {
   const code = this.route.snapshot.queryParamMap.get('code');
@@ -25,6 +29,9 @@ export class HomeComponent {
     this.store.dispatch(exchange({ code }) 
     );
   }
+
+  
+  this.user = this.storageService.getUser();
 }
 
   keepShopping: DashboardItem[] = [
