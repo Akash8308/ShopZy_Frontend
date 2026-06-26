@@ -46,6 +46,20 @@ export class Register {
             Validators.minLength(3)
           ]
         ],
+        fName: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern("^[a-zA-Z]+$")
+          ]
+        ],
+        lName: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern("^[a-zA-Z]+$")
+          ]
+        ],
         email: [
           '',
           [

@@ -21,7 +21,7 @@
       </div>
 
       <form [formGroup]="RegistrationForm" (ngSubmit)="onSubmit()">
-        <div class="input-group">
+        <!-- <div class="input-group">
           <label for="username">Username</label>
 
           <input
@@ -30,6 +30,63 @@
             formControlName="username"
             placeholder="Enter username"
           />
+        </div> -->
+        <div class="input-group">
+          <label for="fName">First Name</label>
+
+          <input
+            id="fName"
+            type="text"
+            formControlName="fName"
+            placeholder="Enter your first name here"
+          />
+
+          <small
+            *ngIf="
+              RegistrationForm.get('fName')?.touched &&
+              RegistrationForm.get('fName')?.hasError('required')
+            "
+          >
+            First name is required
+          </small>
+
+          <small
+            *ngIf="
+              RegistrationForm.get('fName')?.touched &&
+              RegistrationForm.get('fName')?.hasError('pattern')
+            "
+          >
+            Only letters are allowed
+          </small>
+        </div>
+
+        <div class="input-group">
+          <label for="lName">Last Name</label>
+
+          <input
+            id="lName"
+            type="text"
+            formControlName="lName"
+            placeholder="Enter your last name here"
+          />
+
+          <small
+            *ngIf="
+              RegistrationForm.get('lName')?.touched &&
+              RegistrationForm.get('lName')?.hasError('required')
+            "
+          >
+            Last name is required
+          </small>
+
+          <small
+            *ngIf="
+              RegistrationForm.get('lName')?.touched &&
+              RegistrationForm.get('lName')?.hasError('pattern')
+            "
+          >
+            Only letters are allowed
+          </small>
         </div>
 
         <div class="input-group">
